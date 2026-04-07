@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Spendly — Track Every Rupee{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Free to use · No credit card needed
+        </div>
+        <h1 class="hero-title">
+            Track every rupee.<br>
+            <span class="title-green">Know where it goes.</span>
+        </h1>
+        <p class="hero-subtitle">
+            Spendly helps you log expenses, spot patterns, and stay on budget — without the spreadsheet headache.
+        </p>
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
+            <a href="#" class="btn-secondary" id="openModal">See how it works</a>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="dashboard-mock">
+            <div class="dashboard-header">
+                <span class="dashboard-dot red"></span>
+                <span class="dashboard-dot yellow"></span>
+                <span class="dashboard-dot green"></span>
+            </div>
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <span class="stat-label">This month</span>
+                    <span class="stat-value">₹18,240</span>
+                    <span class="stat-change positive">+12% vs last</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Budget left</span>
+                    <span class="stat-value">₹6,760</span>
+                    <span class="stat-change success">43% remaining</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Transactions</span>
+                    <span class="stat-value">34</span>
+                    <span class="stat-change muted">this month</span>
+                </div>
+            </div>
+            <div class="dashboard-bars">
+                <div class="bar-row">
+                    <span class="bar-label">Food</span>
+                    <div class="bar-track">
+                        <div class="bar-fill bar-food" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">Travel</span>
+                    <div class="bar-track">
+                        <div class="bar-fill bar-travel" style="width: 55%"></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">Bills</span>
+                    <div class="bar-track">
+                        <div class="bar-fill bar-bills" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="features-inner">
+        <div class="feature-card">
+            <div class="feature-icon">₹</div>
+            <h3 class="feature-title">Log expenses instantly</h3>
+            <p class="feature-body">Add any expense in seconds. Category, amount, date, description — all in one simple form.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">◎</div>
+            <h3 class="feature-title">Understand your patterns</h3>
+            <p class="feature-body">See exactly where your money goes with category breakdowns and monthly summaries.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">◷</div>
+            <h3 class="feature-title">Filter by time period</h3>
+            <p class="feature-body">View your spending for any date range — last week, last month, or a custom period.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-inner">
+        <h2 class="cta-title">Ready to take control?</h2>
+        <p class="cta-body">Join thousands of people who track their expenses with Spendly.</p>
+        <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block head %}
+<style>
+/* Modal Styles */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-container {
+    background: #000;
+    border-radius: var(--radius-md);
+    padding: 0;
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    z-index: 1001;
+}
+
+.modal-close:hover {
+    color: #ccc;
+}
+
+.modal-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.modal-video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+</style>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <div class="footer-inner">
+        <span class="brand-icon">◈</span>
+        <span class="footer-name">Spendly</span>
+        <p class="footer-copy">Track every rupee. Own your finances.</p>
+        <div class="footer-links">
+            <a href="{{ url_for('terms') }}">Terms and Conditions</a>
+            <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Video Modal -->
+<div class="modal-overlay" id="videoModal">
+    <div class="modal-container">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <div class="modal-video">
+            <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}
